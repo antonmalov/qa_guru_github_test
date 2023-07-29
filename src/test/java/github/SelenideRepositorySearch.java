@@ -5,8 +5,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selectors.by;
-import static com.codeborne.selenide.Selectors.byAttribute;
+import static com.codeborne.selenide.Selectors.*;
 import static com.codeborne.selenide.Selenide.*;
 
 public class SelenideRepositorySearch {
@@ -35,6 +34,14 @@ public class SelenideRepositorySearch {
 
     @Test
     void andreiSolntsevShouldBeTheFirstContributor() {
+        //открыть страницу репозитория
         open("https://github.com/selenide/selenide");
+
+        //подвести мышку к первому аватару из блока contributors
+        $("div.Layout-sidebar").$(byText("Contributors"))
+                .closest(".BorderGrid-cell").$$("ul li").first().hover();
+
+        //проверка: во всплывающем окне есть текст Andrei Solntsev
+        $(".Popover").$(".Popover-message").shouldHave(text("Andrei Solntsev"));
     }
 }
